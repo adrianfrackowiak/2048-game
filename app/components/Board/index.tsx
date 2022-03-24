@@ -4,6 +4,7 @@ import {
   checkIsGameOver,
   gameBoard,
   gameOver,
+  gameScore,
   moveToBottom,
   moveToLeft,
   moveToRight,
@@ -13,6 +14,7 @@ import {
 export const Board = () => {
   const board = useSelector(gameBoard);
   const isGameOver = useSelector(gameOver);
+  const score = useSelector(gameScore);
 
   const dispatch = useDispatch();
 
@@ -42,7 +44,11 @@ export const Board = () => {
 
   return (
     <div className="board">
-      {isGameOver && <div className="game-over">Game Over</div>}
+      {isGameOver && (
+        <div className="game-over">
+          <h3>Game Over</h3> <p>Your score: {score}</p>
+        </div>
+      )}
       {board.map((row: number[]) => {
         return row.map((field: number, index: number) => {
           return (

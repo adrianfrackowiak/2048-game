@@ -6,11 +6,13 @@ import { RootState } from "../store";
 interface IGameBoard {
   board: number[][];
   isGameOver: boolean;
+  score: number;
 }
 
 const initialState = {
   board: getInitialPosition(),
   isGameOver: false,
+  score: 0,
 } as IGameBoard;
 
 export const gameSlice = createSlice({
@@ -20,18 +22,27 @@ export const gameSlice = createSlice({
     startNewGame: (state, action: PayloadAction<number[][]>) => {
       state.board = action.payload;
       state.isGameOver = false;
+      state.score = 0;
     },
     moveToLeft: (state) => {
-      state.board = move("left", state.board).newMatrix;
+      const moveFunction = move("left", state.board);
+      state.board = moveFunction.newMatrix;
+      state.score = state.score + moveFunction.score;
     },
     moveToRight: (state) => {
-      state.board = move("right", state.board).newMatrix;
+      const moveFunction = move("right", state.board);
+      state.board = moveFunction.newMatrix;
+      state.score = state.score + moveFunction.score;
     },
     moveToTop: (state) => {
-      state.board = move("top", state.board).newMatrix;
+      const moveFunction = move("top", state.board);
+      state.board = moveFunction.newMatrix;
+      state.score = state.score + moveFunction.score;
     },
     moveToBottom: (state) => {
-      state.board = move("bottom", state.board).newMatrix;
+      const moveFunction = move("bottom", state.board);
+      state.board = moveFunction.newMatrix;
+      state.score = state.score + moveFunction.score;
     },
     checkIsGameOver: (state) => {
       state.isGameOver = isGameOverFunction(state.board);
@@ -50,5 +61,6 @@ export const {
 
 export const gameBoard = (state: RootState) => state.game.board;
 export const gameOver = (state: RootState) => state.game.isGameOver;
+export const gameScore = (state: RootState) => state.game.score;
 
 export default gameSlice.reducer;
